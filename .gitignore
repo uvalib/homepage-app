@@ -1,2 +1,7 @@
 platforms
 plugins
+node_modules
+www
+bower_components
+.tmp
+.publish/
