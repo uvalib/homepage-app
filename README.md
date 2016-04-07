@@ -8,3 +8,9 @@ cordova prepare
 cordova build android
 cordova emulate android
 ```
+
+## To run the Polymer App
+```
+npm install -g gulp bower && npm install && bower install
+gulp serve
+```
