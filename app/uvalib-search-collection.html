@@ -1,0 +1,275 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/uvalib-helper-libs/lodash.html">
+<link rel="import" href="uvalib-articles.html">
+<link rel="import" href="uvalib-catalog.html">
+
+<dom-module id="uvalib-search-collection">
+  <template>
+    <uvalib-catalog query="[[query]]" id="catalog" auto="{{auto}}" items="{{catalogitems}}" on-response="_catalogResponse" loading="{{catalogLoading}}"></uvalib-catalog>
+    <uvalib-articles query="[[query]]" id="articles" auto="{{auto}}" items="{{articleItems}}" on-response="_articlesResponse" loading="{{articlesLoading}}"></uvalib-articles>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'uvalib-search-collection',
+        properties: {
+          activeRequests: {
+            type: Array,
+            notify: true,
+            readOnly: true,
+            value: function() {
+              return [];
+            }
+          },
+
+          /**
+           * If true, automatically performs an Ajax request when either `url` or
+           * `params` changes.
+           */
+          auto: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * By default, these events do not bubble largely because the `error` event has special
+           * meaning in the window object. Setting this attribute will cause iron-ajax's request,
+           * response, and error events to bubble to the window object.
+           */
+          bubbles: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Length of time in milliseconds to debounce multiple automatically generated requests.
+           */
+          debounceDuration: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          /**
+           * Filter definition for facet search
+           */
+
+          filters: {
+            type: Array,
+            notify: true,
+            value:  function(){ return []}
+          },
+
+          /**
+           * The items from the Catalog request, in a normalized/simplified Format
+           */
+          items: {
+            type: Array,
+            value: [],
+            notify: true
+          },
+
+          /**
+           * lastRequest's error, if any.
+           *
+           * @type {Object}
+           */
+          lastError: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * The most recent request made by this iron-ajax element.
+           */
+          lastRequest: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * lastRequest's response.
+           *
+           * Note that lastResponse and lastError are set when lastRequest finishes,
+           * so if loading is true, then lastResponse and lastError will correspond
+           * to the result of the previous request.
+           *
+           * The type of the response is determined by the value of `handleAs` at
+           * the time that the request was generated.
+           *
+           * @type {Object}
+           */
+          lastResponse: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * The query string of the search
+           */
+          query: {
+            type: String,
+            notify: true,
+            value: "",
+            observer: "_queryChanged"
+          },
+
+          /**
+           * Toggle whether XHR is synchronous or asynchronous. Don't change this
+           * to true unless You Know What You Are Doing™.
+           */
+          sync: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Set the timeout flag on the request.
+           */
+          timeout: {
+            type: Number,
+            value: 0
+          },
+
+          /**
+           * If true, error messages will automatically be logged to the console.
+           */
+          verbose: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * True while lastRequest is in flight.
+           */
+          loading: {
+            type: Boolean,
+            computed: '_both(catalogLoading,articlesLoading)'
+          },
+
+          /**
+           * Length of time in milliseconds to debounce multiple automatically generated requests.
+           */
+          debounceDuration: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          _url: {
+            type: String,
+            value: "http://api.library.virginia.edu/"
+          },
+
+          _params: {
+            type: Object,
+            value: {q:''},
+            notify: true
+          },
+
+          selectedFilters: {
+            type: Object,
+            value: {},
+            notify: true,
+            observer: "_selectedFiltersChanged"
+          }
+        },
+        ready: function(){
+          this.generateRequest();
+        },
+        _both: function(a,b){
+          return (a && b);
+        },
+        _handleError: function(){
+          this.fire('error');
+        },
+        _handleRequest: function(){
+          this.fire('request');
+        },
+        _handleResponse: function(){
+          this.fire('response');
+        },
+        _queryChanged: function(){
+          if (this._params) {
+            this.set('_params.q', this.query);
+          }
+        },
+        _catalogResponse: function(){
+          this._filtersJoin(this.$.catalog.getFilters());
+          this._itemsJoin(this.catalogitems,null);
+        },
+        _articlesResponse: function(){
+          this._filtersJoin(this.$.articles.getFilters());
+          this._itemsJoin(null,this.articleItems);
+        },
+        _filtersJoin: function(fltrs){
+          fltrs.forEach(function(filt){
+            var filter = _.find(this.filters,{id:filt.id});
+            if (filter) {
+              // found a matching filter, combine values
+              filt.values.forEach(function(val){
+                var value = _.find(filter.values,{id:val.id});
+                if (value) {
+                  value.count = value.count+val.count;
+                } else {
+                  filter.values.push(val);
+                }
+              }, this);
+              // sort values now
+              filter.values = _.sortByOrder(filter.values, 'count', 'desc');
+            } else {
+              this.push('filters', filt);
+            }
+          }, this);
+
+        },
+        _itemsJoin: function(catalog, articles){
+          // come up with a better way to join these!!!!
+          // something like this:
+          // get ratio and inject smaller set into larger
+          // keeping a buffer for the next page of results
+          // after the buffer reaches a limit then start skipping page requests
+          // until it comes back down.
+          if (catalog) {
+            this.items = this.items.concat(catalog);
+          }
+          if (articles) {
+            this.items = this.items.concat(articles);
+          }
+        },
+        getItem: function(id){
+          return _.find(this.items, {'id':id});
+        },
+        generateRequest: function(){
+            this.filters = []; this.items = [];
+            this.$.catalog.generateRequest();
+            this.$.articles.generateRequest();
+        },
+        _selectedFiltersChanged: function(newValue, oldValue){
+          if (_.isEmpty(newValue) && _.isEmpty(oldValue)) return;
+          console.log('selected filters changed');
+          this.items = [];
+          var catalog = this.$.catalog,
+              articles = this.$.articles;
+
+          this.items = []; this.filters = [];
+          if (catalog.areFiltersAvailable(this.selectedFilters)) {
+            catalog.setSelectedFilters(this.selectedFilters);
+            catalog.generateRequest();
+          }
+          if (articles.areFiltersAvailable(this.selectedFilters)) {
+            articles.setSelectedFilters(this.selectedFilters);
+            articles.generateRequest();
+          }
+
+        }
+      });
+    })();
+  </script>
+</dom-module>

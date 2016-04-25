@@ -1,0 +1,300 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/uvalib-helper-libs/lodash.html">
+
+<dom-module id="uvalib-catalog">
+  <template>
+    <iron-ajax id="ajax" active-requests="{{activeRequests}}" auto="{{auto}}" bubbles="{{bubbles}}"
+      debounce-duration="{{debounceDuration}}" last-error="{{lastError}}" last-request="{{lastRequest}}"
+      last-response="{{lastResponse}}" loading="{{loading}}" params="{{_params}}" sync="{{sync}}"
+      timeout="{{timeout}}" url="{{_url}}" verbose="{{verbose}}"
+      on-error="_handleError" on-request="_handleRequest" on-response="_handleResponse"
+      handle-as="json"></iron-ajax>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'uvalib-catalog',
+        properties: {
+          activeRequests: {
+            type: Array,
+            notify: true,
+            readOnly: true,
+            value: function() {
+              return [];
+            }
+          },
+
+          /**
+           * If true, automatically performs an Ajax request when either `url` or
+           * `params` changes.
+           */
+          auto: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * By default, these events do not bubble largely because the `error` event has special
+           * meaning in the window object. Setting this attribute will cause iron-ajax's request,
+           * response, and error events to bubble to the window object.
+           */
+          bubbles: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Number of results in the last response
+           */
+          count: {
+            type: Number,
+            value: 0,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * Length of time in milliseconds to debounce multiple automatically generated requests.
+           */
+          debounceDuration: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          /**
+           * Defines the filters that should be used (from the available filters)
+           */
+          filters: {
+            type: Array,
+            value: function(){
+              return [{orig:'library_facet',new:'library',name:'Library'},
+                      {orig:'format_facet',new:'format',name:'Format'},
+                      {orig:'published_date_facet',new:'era',name:'Publication Era'},
+                      {orig:'author_facet',new:'author',name:'Author'},
+                      {orig:'subject_facet',new:'subject',name:'Subject'},
+                      {orig:'language_facet',new:'language',name:'Language'},
+                      {orig:'call_number_facet',new:'call_number',name:'Call Number'},
+                      {orig:'region_facet',new:'region',name:'Geographic Location'},
+                      {orig:'digital_collection_facet',new:'digital_collection',name:'Digital Collection'},
+                      {orig:'source_facet',new:'source',name:'Source'},
+                      {orig:'series_title_facet',new:'series',name:'Series'}];
+            },
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * The items from the Catalog request, in a normalized/simplified Format
+           */
+          items: {
+            type: Array,
+            value: [],
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * lastRequest's error, if any.
+           *
+           * @type {Object}
+           */
+          lastError: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * The most recent request made by this iron-ajax element.
+           */
+          lastRequest: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * lastRequest's response.
+           *
+           * Note that lastResponse and lastError are set when lastRequest finishes,
+           * so if loading is true, then lastResponse and lastError will correspond
+           * to the result of the previous request.
+           *
+           * The type of the response is determined by the value of `handleAs` at
+           * the time that the request was generated.
+           *
+           * @type {Object}
+           */
+          lastResponse: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          },
+
+          /**
+           * The query string of the search
+           */
+          query: {
+            type: String,
+            notify: true,
+            value: "",
+            observer: "_queryChanged"
+          },
+
+          /**
+           * Toggle whether XHR is synchronous or asynchronous. Don't change this
+           * to true unless You Know What You Are Doing™.
+           */
+          sync: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Set the timeout flag on the request.
+           */
+          timeout: {
+            type: Number,
+            value: 0
+          },
+
+          /**
+           * If true, error messages will automatically be logged to the console.
+           */
+          verbose: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * True while lastRequest is in flight.
+           */
+          loading: {
+            type: Boolean,
+            notify: true,
+          },
+
+          /**
+           * Length of time in milliseconds to debounce multiple automatically generated requests.
+           */
+          debounceDuration: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          _url: {
+            type: String,
+            value: "http://api.library.virginia.edu/catalog.json"
+          },
+
+          _params: {
+            type: Object,
+            value: {q:''},
+            notify: true
+          }
+        },
+        ready: function(){
+          this._filterValueMap = {};
+        },
+        _handleError: function(){
+          this.fire('error');
+        },
+        _handleRequest: function(){
+          this.fire('request');
+        },
+        _handleResponse: function(){
+          if (this.$.ajax.lastResponse) {
+            this._setItems(this._mapResults(this.$.ajax.lastResponse.response.docs));
+//            this._setFilters(this._mapFilters(this.$.ajax.lastResponse.facet_counts.facet_fields));
+            this._setCount(this.$.ajax.lastResponse.response.numFound);
+            this.fire('response');
+          }
+        },
+        _queryChanged: function(){
+          if (this._params) {
+            this.set('_params.q', this.query);
+          }
+        },
+        _mapResults: function(items){
+          return _.map(items,function(item){
+            var obj = {id: item.id};
+            obj.title = item.title_display.join(', ');
+            if (item.subtitle_display && item.subtitle_display.length>0)
+              obj.title += item.subtitle_display.join(', ')
+            obj.author = (item.author_display && item.author_display.length>0)?
+                            item.author_display.join(', '):"";
+            obj.format = (item.format_facet && item.format_facet.length>0)?
+                            item.format_facet.join(', '):"";
+            obj.image = "http://search.lib.virginia.edu/catalog/"+obj.id+"/image.jpg";
+            return obj;
+          });
+        },
+        areFiltersAvailable: function(selFilters){
+          var filters = this.getFilters();
+          for (var key in selFilters) {
+            var filter = _.find(filters,{id:key});
+            if (filter) {
+              selFilters[key].forEach(function(val){
+                if (!_.find(filter.values,{id:val}))
+                  return false
+              }, this);
+            } else {
+              return false;
+            }
+          }
+          return true;
+        },
+        emptyFilters: function(){
+          for (var key in this._params) {
+            if (key.startsWith('f['))
+              delete this._params[key];
+          }
+        },
+        setSelectedFilters: function(selFilters){
+          this.emptyFilters();
+          if (!_.isEmpty(selFilters)) {
+            for (var key in selFilters) {
+              var filter = _.find(this.filters,{new:key});
+              if (filter) {
+                selFilters[key].forEach(function(val){
+                  this.set('_params.f['+filter.orig+'][]', this._filterValueMap[filter.new][val]);
+                }, this);
+              }
+            }
+          }
+        },
+        getFilters: function(){
+          return this._mapFilters(this.$.ajax.lastResponse.facet_counts.facet_fields);
+        },
+        _mapFilters: function(fields){
+          var facets = []
+          this.filters.forEach(function(filter,i){
+            if (fields[filter.orig])
+              this._filterValueMap[filter.new] = {};
+              facets.push({
+                id: filter.new,
+                name: filter.name,
+                values: _.map(_.chunk(fields[filter.orig], 2),
+                              function(i){
+                                var id = i[0].replace(/\s/g,'_').toLowerCase();
+                                this._filterValueMap[filter.new][id] = i[0];
+                                return {id:id,
+                                        name:i[0],
+                                        count:i[1]};}, this)
+              });
+          }, this);
+          return facets;
+        },
+        generateRequest: function(){
+          this.$.ajax.generateRequest();
+        }
+      });
+    })();
+  </script>
+</dom-module>
