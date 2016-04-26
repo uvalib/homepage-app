@@ -242,6 +242,7 @@
           if (articles) {
             this.items = this.items.concat(articles);
           }
+          this.items = _.shuffle(this.items);
         },
         getItem: function(id){
           return _.find(this.items, {'id':id});

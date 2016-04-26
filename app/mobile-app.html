@@ -25,8 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <neon-animated-pages id="pages" selected="0">
-      <list-view data="[[fileData]]" on-item-click="_onItemClick"></list-view>
-      <full-view on-close="_onClose" selected-item="[[selectedItem]]"></full-view>
+      <list-view data="[[fileData]]" selected-item="{{selectedItem}}" on-item-click="_onItemClick"></list-view>
+      <full-view on-close="_onClose" selected-item="{{selectedItem}}"></full-view>
     </neon-animated-pages>
   </template>
 
@@ -41,8 +41,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     properties: {
     },
 
-    _onItemClick: function(evt, item) {
-      this.selectedItem = item;
+    _onItemClick: function() {
+//      this.selectedItem = item;
       this.$.pages.selected = 1;
     },
 

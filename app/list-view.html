@@ -46,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </paper-toolbar>
 
     <div class="main" id="list">
-      <iron-list items="{{items}}" as="item">
+      <iron-list items="{{items}}" as="item" selection-enabled selected-item="{{selectedItem}}">
         <template>
           <paper-icon-item id="[[item.id]]">
             <template is="dom-if" if="[[item.image]]">
@@ -63,6 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-icon-item>
         </template>
       </iron-list>
+
     </div>
 
   </template>
@@ -84,6 +85,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     properties: {
+
+      selectedItem: {
+        type: Object,
+        notify: true,
+        value: {}
+      },
 
       loading: {
         type: Boolean,
@@ -130,19 +137,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _onClick: function(event) {
-      var target = event.target;
-      while (target !== this && !target._templateInstance) {
-        target = target.parentNode;
-      }
-
-      // configure the page animation
-      this.sharedElements = {
-        'hero': target,
-      };
-
-      this.fire('item-click', {
-        item: this.$.search.getItem(target.id),
-      });
+      this.fire('item-click');
     },
 
     _openFilter: function(){
