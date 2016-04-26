@@ -12,8 +12,9 @@ gulp
 ```
 
 ## To run the Cordova App (after cloning this repo and cd into it)
-Note: If you do not have the Android SDK installed you will need
-to do that. Otherwise you will see an error when you attempt to
+Note: If you do not have the Android SDK installed [you will need
+to do that|http://developer.android.com/sdk/installing/index.html]. 
+Otherwise you will see an error when you attempt to
 build the android version.
 ```
 npm install -g Cordova
