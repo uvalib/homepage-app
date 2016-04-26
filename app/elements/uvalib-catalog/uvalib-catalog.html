@@ -1,6 +1,6 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="bower_components/uvalib-helper-libs/lodash.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../uvalib-helper-libs/lodash.html">
 
 <dom-module id="uvalib-catalog">
   <template>
@@ -286,7 +286,7 @@
                                 this._filterValueMap[filter.new][id] = i[0];
                                 return {id:id,
                                         name:i[0],
-                                        count:i[1]};}, this)
+                                        count:i[1]};}.bind(this))
               });
           }, this);
           return facets;

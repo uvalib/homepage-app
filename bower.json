@@ -2,14 +2,13 @@
   "name": "polymer-starter-kit",
   "private": true,
   "dependencies": {
-    "iron-elements": "PolymerElements/iron-elements",
-    "neon-elements": "PolymerElements/neon-elements",
-    "paper-elements": "PolymerElements/paper-elements",
-    "platinum-elements": "PolymerElements/platinum-elements",
-    "polymer": "Polymer/polymer",
-    "app-layout": "PolymerLabs/app-layout",
-    "uvalib-catalog": "uvalib-components/uvalib-catalog",
-    "paper-search": "Collaborne/paper-search"
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
+    "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-search": "Collaborne/paper-search#^1.1.0",
+    "lodash": "^4.11.2"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

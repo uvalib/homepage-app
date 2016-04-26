@@ -1,7 +1,7 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="bower_components/uvalib-helper-libs/lodash.html">
-<link rel="import" href="uvalib-articles.html">
-<link rel="import" href="uvalib-catalog.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../uvalib-helper-libs/lodash.html">
+<link rel="import" href="../uvalib-articles/uvalib-articles.html">
+<link rel="import" href="../uvalib-catalog/uvalib-catalog.html">
 
 <dom-module id="uvalib-search-collection">
   <template>
@@ -222,7 +222,7 @@
                 }
               }, this);
               // sort values now
-              filter.values = _.sortByOrder(filter.values, 'count', 'desc');
+              filter.values = _.orderBy(filter.values, 'count', 'desc');
             } else {
               this.push('filters', filt);
             }
