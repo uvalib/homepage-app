@@ -21,6 +21,9 @@ cordova prepare
 cordova build android
 cordova emulate android
 ```
+If you see an error about no emulator images found when trying to 
+execute cordova emulate android, follow the instructions provided to 
+add the addition SDK content and create an emulator.
 
 ## To run the Polymer App
 ```
