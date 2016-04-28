@@ -67,9 +67,9 @@
 
     is: 'list-view',
 
-    behaviors: [
-      Polymer.NeonAnimatableBehavior
-    ],
+//    behaviors: [
+//      Polymer.NeonAnimatableBehavior
+//    ],
 
     listeners: {
       'list.click': '_onClick'
@@ -96,18 +96,6 @@
           return [];
         }
       },
-
-      //something wrong here!!!
-/*
-      sharedElements: {
-        type: Object,
-        value: function() {
-          return {
-            'hero': this
-          };
-        }
-      },
-*/
 
       animationConfig: {
         type: Object,
