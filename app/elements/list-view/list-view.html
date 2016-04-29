@@ -75,10 +75,6 @@
 
     is: 'list-view',
 
-//    behaviors: [
-//      Polymer.NeonAnimatableBehavior
-//    ],
-
     listeners: {
       'list.click': '_onClick'
     },
@@ -102,27 +98,6 @@
         type: Array,
         value: function() {
           return [];
-        }
-      },
-
-      animationConfig: {
-        type: Object,
-        value: function() {
-          return {
-            'entry': [{
-              name: 'fade-in-animation',
-              node: this.$.button
-            }],
-
-            'exit': [{
-              name: 'fade-out-animation',
-              node: this.$.button
-            }, {
-              name: 'hero-animation',
-              id: 'hero',
-              fromPage: this
-            }]
-          };
         }
       }
     },
