@@ -68,8 +68,8 @@
            */
           items: {
             type: Array,
-            value: [],
-            notify: true
+            notify: true,
+            readOnly: true
           },
 
           /**
@@ -181,10 +181,11 @@
           }
         },
         ready: function(){
+          this._items = [];
           this.generateRequest();
         },
         _both: function(a,b){
-          return (a && b);
+          return (a || b);
         },
         _handleError: function(){
           this.fire('error');
@@ -202,11 +203,11 @@
         },
         _catalogResponse: function(){
           this._filtersJoin(this.$.catalog.getFilters());
-          this._itemsJoin(this.catalogitems,null);
+          this._itemsJoin(this.catalogitems);
         },
         _articlesResponse: function(){
           this._filtersJoin(this.$.articles.getFilters());
-          this._itemsJoin(null,this.articleItems);
+          this._itemsJoin(this.articleItems);
         },
         _filtersJoin: function(fltrs){
           fltrs.forEach(function(filt){
@@ -229,37 +230,39 @@
           }, this);
 
         },
-        _itemsJoin: function(catalog, articles){
+        _itemsJoin: function(items){
           // come up with a better way to join these!!!!
           // something like this:
           // get ratio and inject smaller set into larger
           // keeping a buffer for the next page of results
           // after the buffer reaches a limit then start skipping page requests
           // until it comes back down.
-          if (catalog) {
-            this.items = this.items.concat(catalog);
-          }
-          if (articles) {
-            this.items = this.items.concat(articles);
-          }
-          this.items = _.shuffle(this.items);
+          this._items = _.shuffle(this._items.concat(items));
+          if (!this.loading)
+            this._setItems(this._items);
+//            _.shuffle(this._items.concat(items)).forEach(function(item){
+//              this.push('items',item);
+//            }, this);
         },
         getItem: function(id){
           return _.find(this.items, {'id':id});
         },
         generateRequest: function(){
-            this.filters = []; this.items = [];
+            this._items = [];
+            this.filters = []; //this.items = [];
             this.$.catalog.generateRequest();
             this.$.articles.generateRequest();
         },
         _selectedFiltersChanged: function(newValue, oldValue){
           if (_.isEmpty(newValue) && _.isEmpty(oldValue)) return;
           console.log('selected filters changed');
-          this.items = [];
+          //this.items = [];
           var catalog = this.$.catalog,
               articles = this.$.articles;
 
-          this.items = []; this.filters = [];
+          //this.items = [];
+          this._items = [];
+          this.filters = [];
           if (catalog.areFiltersAvailable(this.selectedFilters)) {
             catalog.setSelectedFilters(this.selectedFilters);
             catalog.generateRequest();

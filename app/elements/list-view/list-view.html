@@ -16,12 +16,17 @@
   <template>
     <style is="custom-style">
       :host {
+        @apply(--layout-fit);
         @apply(--layout-vertical);
       }
 
       .main {
         @apply(--layout-flex);
         @apply(--layout-scroll);
+      }
+
+      iron-list {
+        height: 800px;
       }
 
       iron-icon {
@@ -37,8 +42,10 @@
     </paper-toolbar>
 
     <div class="main" id="list" style="overflow:inherit">
-      <iron-list items="{{items}}" as="item" selection-enabled selected-item="{{selectedItem}}">
+
+      <iron-list items="[[items]]" as="item" selection-enabled selected-item="{{selectedItem}}">
         <template>
+
           <paper-icon-item id="[[item.id]]">
             <template is="dom-if" if="[[item.image]]">
               <div item-icon><img src="[[item.image]]" width="54px"></div>
@@ -52,6 +59,7 @@
               <div secondary><strong>Format:</strong> [[item.format]]</div>
             </paper-item-body>
           </paper-icon-item>
+
         </template>
       </iron-list>
 
