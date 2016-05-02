@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../uvalib-helper-libs/lodash.html">
+<link rel="import" href="../../bower_components/uvalib-helper-libs/lodash.html">
 
 <dom-module id="uvalib-catalog">
   <template>
@@ -232,6 +232,8 @@
             obj.format = (item.format_facet && item.format_facet.length>0)?
                             item.format_facet.join(', '):"";
             obj.image = "http://search.lib.virginia.edu/catalog/"+obj.id+"/image.jpg";
+            if (item.creator_display && item.creator_display.length>0)
+              obj.creator = item.creator_display.join(', ');
             return obj;
           });
         },

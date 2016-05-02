@@ -9,7 +9,8 @@
     "polymer": "Polymer/polymer#^1.2.0",
     "paper-search": "Collaborne/paper-search#^1.1.0",
     "lodash": "^4.11.2",
-    "app-layout": "PolymerLabs/app-layout#^0.0.15"
+    "app-layout": "PolymerLabs/app-layout#^0.0.15",
+    "uvalib-helper-libs": "uvalib-components/uvalib-helper-libs#master"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
