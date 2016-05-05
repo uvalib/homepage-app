@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-styles/shadow.html">
-<link rel="import" href="../../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../../bower_components/uvalib-item-display/uvalib-item-display.html">
 
 <dom-module id="full-view">
   <template>
@@ -42,11 +42,7 @@
     </paper-toolbar>
 
     <div id="main" class="main">
-      <div class="image-container">
-        <div class="image">
-        </div>
-      </div>
-      <h3>{{selectedItem.id}}</h3>
+      <uvalib-item-display item="[[selectedItem]]"></uvalib-item-display>
     </div>
 
   </template>
