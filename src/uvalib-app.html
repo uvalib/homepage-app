@@ -27,22 +27,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
 <link rel="import" href="../bower_components/uvalib-page/uvalib-page.html">
 
-<!--
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
--->
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<!--
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="my-icons.html">
--->
 
 <dom-module id="uvalib-app">
   <template>
@@ -289,104 +276,74 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}"></app-route>
 
 
-    <uvalib-page small-screen="{{_smallScreen}}"
+    <uvalib-page id="page"
+                 small-screen="{{_smallScreen}}"
                  medium-screen="{{_mediumScreen}}"
                  large-screen="{{_largeScreen}}"
                  screen-size="{{_screenSize}}">
 
-      <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
+      <iron-pages attr-for-selected="name" selected="">
 
-      <div id="shady-box">
+        <div name="">
+          <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
 
-        <template is="dom-if" if="{{_largeScreen}}" restamp>
-          <div class="card-container">
-            <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
-            <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
-              <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
-            </uvalib-hours-card>
-            <uvalib-research-card class="card"></uvalib-research-card>
-            <uvalib-spaces-card class="card"></uvalib-spaces-card>
+          <div id="shady-box">
+
+            <template is="dom-if" if="{{_largeScreen}}" restamp>
+              <div class="card-container">
+                <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
+                <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+                  <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+                </uvalib-hours-card>
+                <uvalib-research-card class="card"></uvalib-research-card>
+                <uvalib-spaces-card class="card"></uvalib-spaces-card>
+              </div>
+            </template>
+            <template is="dom-if" if="{{!_largeScreen}}" restamp>
+              <div class="card-container" style="margin-bottom: 0;">
+                <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+                  <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+                </uvalib-hours-card>
+                <uvalib-research-card class="card"></uvalib-research-card>
+              </div>
+              <div class="card-container">
+                <uvalib-spaces-card class="card"></uvalib-spaces-card>
+                <uvalib-services-card class="card" hidden$="{{_largeScreen}}"></uvalib-services-card>
+              </div>
+            </template>
+
           </div>
-        </template>
-        <template is="dom-if" if="{{!_largeScreen}}" restamp>
-          <div class="card-container" style="margin-bottom: 0;">
-            <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
-              <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
-            </uvalib-hours-card>
-            <uvalib-research-card class="card"></uvalib-research-card>
+
+          <div id="upper">
+            <div class="card-container">
+              <uvalib-services-card class="card" hidden$="{{!_largeScreen}}"></uvalib-services-card>
+              <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
+                  <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
+              </uvalib-events-card>
+            </div>
           </div>
-          <div class="card-container">
-            <uvalib-spaces-card class="card"></uvalib-spaces-card>
-            <uvalib-services-card class="card" hidden$="{{_largeScreen}}"></uvalib-services-card>
+
+          <div id="news">
+            <h2 hidden$="{{!_largeScreen}}">Library News</h2>
+            <div class="card-container">
+              <div class="card"></div>
+              <div class="card"></div>
+              <div class="card" hidden$="{{_smallScreen}}"></div>
+            </div>
+            <uvalib-button>More News</uvalib-button>
           </div>
-        </template>
 
-      </div>
-
-      <div id="upper">
-        <div class="card-container">
-          <uvalib-services-card class="card" hidden$="{{!_largeScreen}}"></uvalib-services-card>
-          <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
-              <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
-          </uvalib-events-card>
+          <div id="lower">
+            <div class="card-container">
+              <uvalib-featured-exhibit-card class="card" horizontal></uvalib-featured-exhibit-card>
+              <uvalib-engage-card class="card" horizontal></uvalib-engage-card>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div id="news">
-        <h2 hidden$="{{!_largeScreen}}">Library News</h2>
-        <div class="card-container">
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card" hidden$="{{_smallScreen}}"></div>
-        </div>
-        <uvalib-button>More News</uvalib-button>
-      </div>
-
-      <div id="lower">
-        <div class="card-container">
-          <uvalib-featured-exhibit-card class="card" horizontal></uvalib-featured-exhibit-card>
-          <uvalib-engage-card class="card" horizontal></uvalib-engage-card>
-        </div>
-      </div>
+        
+      </iron-pages>
 
     </uvalib-page>
-
-
-<!--
-    <app-drawer-layout fullbleed>
-      <!-- Drawer content ->
-      <app-drawer id="drawer">
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
-        </iron-selector>
-      </app-drawer>
-
-      <!-- Main content ->
-      <app-header-layout has-scrolling-region>
-
-        <app-header condenses reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
-          </app-toolbar>
-        </app-header>
-
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
--->
 
   </template>
 
