@@ -1,26 +1,41 @@
 {
   "name": "polymer-starter-kit",
-  "private": true,
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
-    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
-    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
-    "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
-    "polymer": "Polymer/polymer#^1.2.0",
-    "paper-search": "Collaborne/paper-search#^1.1.0",
-    "lodash": "^4.11.2",
-    "app-layout": "PolymerLabs/app-layout#^0.0.15",
-    "uvalib-helper-libs": "uvalib-components/uvalib-helper-libs#master",
-    "uvalib-catalog": "uvalib-components/uvalib-catalog#master",
-    "uvalib-articles": "uvalib-components/uvalib-articles#master",
-    "uvalib-search-collection": "uvalib-components/uvalib-search-collection#master",
-    "uvalib-item-display": "uvalib-components/uvalib-item-display#master"
+    "polymer": "Polymer/polymer#^1.8.1",
+    "uvalib-elements": "uvalib-components/uvalib-elements#master"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
-  "ignore": [],
+  "private": true,
   "resolutions": {
-    "lodash": "^4.13.1"
+    "polymer": "^1.8.1",
+    "web-component-tester": "^5.0.0",
+    "lodash": "^4.17.4",
+    "mocha": "^3.1.2",
+    "uvalib-elements": "master",
+    "uvalib-alerts": "master",
+    "uvalib-analytics": "master",
+    "uvalib-banner": "master",
+    "uvalib-card": "master",
+    "uvalib-button": "master",
+    "uvalib-events-card": "master",
+    "uvalib-header": "master",
+    "uvalib-helper-libs": "master",
+    "uvalib-hours-card": "master",
+    "uvalib-logos": "master",
+    "uvalib-models": "master",
+    "uvalib-liame": "master",
+    "uvalib-nav": "master",
+    "uvalib-footer": "master",
+    "uvalib-news-section": "master",
+    "uvalib-search-box": "master",
+    "uvalib-theme": "master",
+    "uvalib-skip-nav": "master",
+    "uvalib-social-links": "master"
   }
 }

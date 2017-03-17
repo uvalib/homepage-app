@@ -1,0 +1,525 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+
+<link rel="import" href="../bower_components/uvalib-banner/uvalib-banners.html">
+<link rel="import" href="../bower_components/uvalib-theme/uvalib-theme.html">
+<link rel="import" href="../bower_components/uvalib-search-box/uvalib-search-box.html">
+<link rel="import" href="../bower_components/uvalib-card/uvalib-common-cards.html">
+<link rel="import" href="../bower_components/uvalib-button/uvalib-button.html">
+<link rel="import" href="../bower_components/uvalib-hours-card/uvalib-hours-card.html">
+<link rel="import" href="../bower_components/uvalib-events-card/uvalib-events-card.html">
+<link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
+<link rel="import" href="../bower_components/uvalib-page/uvalib-page.html">
+
+<!--
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+-->
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<!--
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="my-icons.html">
+-->
+
+<dom-module id="uvalib-app">
+  <template>
+    <style is="custom-style" include="uvalib-theme">
+      :host {
+        display: block;
+      }
+
+      uvalib-page {
+        @apply(--layout-vertical);
+      }
+
+      uvalib-banner {
+        width: 100%;
+      }
+
+      .card-container {
+        @apply(--layout-horizontal);
+      }
+      .card {
+        @apply(--layout-flex);
+        @apply(--layout-self-stretch);
+      }
+
+      uvalib-search-box {
+        top: -91px;
+        max-width: var(--uvalib-display-width-max);
+        width: 100%;
+        position: absolute;
+        z-index: 1000000000;
+      }
+
+      #shady-box, #upper, #news, #lower {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      #shady-box {
+        background-color: #f5f5f5;
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        position: relative;
+      }
+      :host([large-screen]) #shady-box .card-container {
+        margin-top: 114px;
+        margin-bottom: 48px;
+      }
+      :host([medium-screen]) #shady-box .card-container {
+        margin-top: 22px;
+        margin-bottom: 23px;
+      }
+      #shady-box .card-container {
+        margin-top: 114px;
+        max-width: var(--uvalib-display-width-max);
+        width: 100%;
+      }
+      :host([small-screen]) #shady-box .card-container {
+          @apply(--layout-vertical);
+          height: 710px;
+          margin-top: 0;
+          margin-bottom:15px;
+      }
+      #shady-box .card-container .card {
+        height: 336px;
+        overflow: hidden;
+        margin: 0 8.5px 0 8.5px;
+        border: solid 1px #e0e0e0;
+      }
+      :host([small-screen]) #shady-box .card-container .card {
+        margin-top: 15px;
+      }
+      #shady-box .card-container .card:first-child {
+        margin-left: 0;
+      }
+      #shady-box .card-container .card:last-child {
+        margin-right: 0;
+      }
+
+      #upper {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        position: relative;
+      }
+      #upper .card-container {
+        margin-top: 48px;
+        max-width: var(--uvalib-display-width-max);
+        margin-bottom: 48px;
+        width: 100%
+      }
+      #upper .card-container .card {
+        height: 336px;
+        overflow: hidden;
+        margin: 0 8.5px 0 8.5px;
+        border: solid 1px #e0e0e0;
+      }
+      #upper .card-container uvalib-services-card {
+        margin-left: 0 !important;
+        @apply(--layout-flex-1);
+      }
+      #upper .card-container uvalib-events-card {
+        margin-right: 0 !important;
+        @apply(--layout-flex-2);
+      }
+      :host([medium-screen]) #upper .card-container {
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+      :host([small-screen]) #upper .card-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      :host([medium-screen]) #upper .card-container uvalib-events-card {
+        margin: 0;
+      }
+      :host([small-screen]) #upper .card-container uvalib-events-card {
+        margin: 0;
+        height: 384px;
+      }
+
+      #news {
+        background-color: #f5f5f5;
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        position: relative;
+        height: 456px;
+      }
+      :host([medium-screen]) #news {
+        height: 361px;
+      }
+      :host([small-screen]) #news {
+        height: 588px;
+      }
+      #news h2 {
+        font-family: var(--font-primary);
+        font-size: 24px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: rgba(0, 0, 0, 0.54);
+        margin: 34px 0 30px 0
+      }
+      #news .card-container {
+        height: 240px;
+        width: 100%;
+        max-width: var(--uvalib-display-width-max);
+        margin: 0;
+        @apply(--layout-horizontal);
+      }
+      :host([medium-screen]) #news .card-container {
+        padding-top: 24px;
+      }
+      :host([small-screen]) #news .card-container {
+        padding-top: 15px;
+        height: 588px;
+        @apply(--layout-vertical);
+      }
+      #news .card-container .card {
+        overflow: hidden;
+        margin: 0 8.5px 0 8.5px;
+        border: solid 1px #e0e0e0;
+        @apply(--layout-flex);
+
+        border-radius: 2px;
+        background-color: #ffffff;
+        border: solid 1px #e0e0e0;
+      }
+      :host([small-screen]) #news .card-container .card {
+        height: 240px;
+        margin-bottom: 15px;
+      }
+      #news uvalib-button {
+        margin-top: 26px;
+      }
+      :host([medium-screen]) #news uvalib-button {
+        margin-top: 22px;
+      }
+      :host([small-screen]) #news uvalib-button {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      #news .card-container .card:first-child {
+        margin-left: 0;
+      }
+      #news .card-container .card:last-child {
+        margin-right: 0;
+      }
+
+      #lower {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        position: relative;
+      }
+      #lower .card-container {
+        margin-top: 48px;
+        max-width: var(--uvalib-display-width-max);
+        margin-bottom: 48px;
+      }
+      :host([medium-screen]) #lower .card-container {
+        @apply(--layout-vertical);
+        height: 472px;
+      }
+      :host([small-screen]) #lower .card-container {
+        @apply(--layout-vertical);
+        height: 444px;
+        margin-top: 15px;
+      }
+      #lower .card-container .card {
+        height: 216px;
+        overflow: hidden;
+        margin: 0 8.5px 0 8.5px;
+        border: solid 1px #e0e0e0;
+      }
+      :host([medium-screen]) #lower .card-container .card {
+        margin-bottom: 22px;
+      }
+      :host([small-screen]) #lower .card-container .card {
+        margin-bottom: 15px;
+      }
+      #lower .card-container uvalib-services-card {
+        margin-left: 0 !important;
+        @apply(--layout-flex-1);
+      }
+      #lower .card-container uvalib-events-card {
+        margin-right: 0 !important;
+        @apply(--layout-flex-2);
+      }
+      .page {
+        margin: 20px;
+      }
+
+      .card uvalib-button{
+        font-size: 18px;
+      }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+
+    <uvalib-page small-screen="{{_smallScreen}}"
+                 medium-screen="{{_mediumScreen}}"
+                 large-screen="{{_largeScreen}}"
+                 screen-size="{{_screenSize}}">
+
+      <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
+
+      <div id="shady-box">
+
+        <template is="dom-if" if="{{_largeScreen}}" restamp>
+          <div class="card-container">
+            <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
+            <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+              <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+            </uvalib-hours-card>
+            <uvalib-research-card class="card"></uvalib-research-card>
+            <uvalib-spaces-card class="card"></uvalib-spaces-card>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!_largeScreen}}" restamp>
+          <div class="card-container" style="margin-bottom: 0;">
+            <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+              <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+            </uvalib-hours-card>
+            <uvalib-research-card class="card"></uvalib-research-card>
+          </div>
+          <div class="card-container">
+            <uvalib-spaces-card class="card"></uvalib-spaces-card>
+            <uvalib-services-card class="card" hidden$="{{_largeScreen}}"></uvalib-services-card>
+          </div>
+        </template>
+
+      </div>
+
+      <div id="upper">
+        <div class="card-container">
+          <uvalib-services-card class="card" hidden$="{{!_largeScreen}}"></uvalib-services-card>
+          <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
+              <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
+          </uvalib-events-card>
+        </div>
+      </div>
+
+      <div id="news">
+        <h2 hidden$="{{!_largeScreen}}">Library News</h2>
+        <div class="card-container">
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card" hidden$="{{_smallScreen}}"></div>
+        </div>
+        <uvalib-button>More News</uvalib-button>
+      </div>
+
+      <div id="lower">
+        <div class="card-container">
+          <uvalib-featured-exhibit-card class="card" horizontal></uvalib-featured-exhibit-card>
+          <uvalib-engage-card class="card" horizontal></uvalib-engage-card>
+        </div>
+      </div>
+
+    </uvalib-page>
+
+
+<!--
+    <app-drawer-layout fullbleed>
+      <!-- Drawer content ->
+      <app-drawer id="drawer">
+        <app-toolbar>Menu</app-toolbar>
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="view1" href="/view1">View One</a>
+          <a name="view2" href="/view2">View Two</a>
+          <a name="view3" href="/view3">View Three</a>
+        </iron-selector>
+      </app-drawer>
+
+      <!-- Main content ->
+      <app-header-layout has-scrolling-region>
+
+        <app-header condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title>My App</div>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-view1 name="view1"></my-view1>
+          <my-view2 name="view2"></my-view2>
+          <my-view3 name="view3"></my-view3>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+-->
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'uvalib-app',
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
+
+        /**
+         * Array of JSON items that represent the navigation. Each JSON item has a label property, an icon property, and a url property.
+         */
+        navigation: {
+          type: Array,
+          value: [
+            {"label": "About", "icon": "university", "url": "about-uva-library"},
+            {"label": "Research", "icon": "graduation-cap", "url": "//www.library.virginia.edu/research/"},
+            {"label": "Collections", "icon": "book", "url": "//www.library.virginia.edu/collections/"},
+            {"label": "Services", "icon": "cloud", "url": "//www.library.virginia.edu/services/"}
+          ],
+        },
+        mobileNavigation: {
+          type: Array,
+          value: [
+            {"label": "About", "icon": "university", "url": "about-uva-library"},
+            {"label": "Research", "icon": "graduation-cap", "url": "//www.library.virginia.edu/research/"},
+            {"label": "Collections", "icon": "book", "url": "//www.library.virginia.edu/collections/"},
+            {"label": "Services", "icon": "cloud", "url": "/www.library.virginia.edu/services/"}
+          ],
+        },
+        /*
+         *  Is the screen small sized (phone sized device)
+         */
+        smallScreen: {
+          type: Boolean,
+          notify: true,
+          value: false,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+        /*
+         *  Is the screen medium sized (tablet sized device)
+         */
+        mediumScreen: {
+          type: Boolean,
+          notify: true,
+          value: false,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+        /*
+         *  Is the screen large sized (desktop sized screen)
+         */
+        largeScreen: {
+          type: Boolean,
+          notify: true,
+          value: false,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+        _smallScreen: {
+          type: Boolean,
+          notify: true,
+        },
+        _mediumScreen: {
+          type: Boolean,
+          notify: true,
+        },
+        _largeScreen: {
+          type: Boolean,
+          notify: true,
+        },
+        /*
+         *  The size of the screen ('small', 'medium', 'large')
+         */
+        screenSize: {
+          type: String,
+          value: 'large',
+          notify: true,
+          readOnly: true,
+          reflectToAttribute: true
+        }
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)',
+        '_updateScreenSize(_smallScreen,_mediumScreen,_largeScreen)'
+      ],
+
+      _routePageChanged: function(page) {
+        this.page = page || 'view1';
+
+//        if (!this.$.drawer.persistent) {
+//          this.$.drawer.close();
+//        }
+      },
+
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = 'view404';
+      },
+
+      _updateScreenSize: function() {
+        this.debounce('screen', function(){
+          if (this._smallScreen) {
+            this._setScreenSize('small');
+            this._setSmallScreen(true);
+            this._setMediumScreen(false);
+            this._setLargeScreen(false);
+          } else if (this._mediumScreen) {
+            this._setScreenSize('medium');
+            this._setSmallScreen(false);
+            this._setMediumScreen(true);
+            this._setLargeScreen(false);
+          } else {
+            this._setScreenSize('large');
+            this._setSmallScreen(false);
+            this._setMediumScreen(false);
+            this._setLargeScreen(true);
+          }
+        }, 100);
+      },
+
+    });
+  </script>
+</dom-module>
