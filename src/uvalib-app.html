@@ -268,6 +268,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 18px;
       }
 
+      .pagepull {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+
+      #pagepull {
+        max-width: var(--uvalib-display-width-max);
+        margin: 20px;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -289,7 +298,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  screen-size="{{_screenSize}}">
 
       <iron-pages attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]">
-        <div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>
+        <!--<div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>-->
+        <div name="pagepull" class="pagepull">
+          <div id="pagepull"></div>
+        </div>
         <div name="homepage">
           <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
 
@@ -362,6 +374,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           reflectToAttribute: true,
 //          observer: '_pageChanged',
+        },
+
+        pageModel: {
+          type: Object,
+          value: null,
+          observer: "_render"
         },
 
         /**
@@ -443,6 +461,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_routePageChanged(routeData.page)',
         '_updateScreenSize(_smallScreen,_mediumScreen,_largeScreen)'
       ],
+
+      _render: function(){
+        if (this.pageModel && this.pageModel.body)
+          Polymer.dom(this.$.pagepull).innerHTML = this.pageModel.body;
+      },
 
       _whichIronPage: function(path){
         var page = (path=="")?
