@@ -26,10 +26,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-events-card/uvalib-events-card.html">
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
 <link rel="import" href="../bower_components/uvalib-page/uvalib-page.html">
+<link rel="import" href="../bower_components/uvalib-models/uvalib-model-pages.html">
 
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/page-title/page-title.html">
 
 <dom-module id="uvalib-app">
   <template>
@@ -270,10 +272,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-location route="{{route}}"></app-location>
     <app-route
+        id="router"
         route="{{route}}"
         pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
+
+    <uvalib-model-pages id="uvapages" path="/[[routeData.page]]" page="{{pageModel}}"></uvalib-model-pages>
+    <page-title base-title="UVA Libary" page-title="[[pageModel.title]]"></page-title>
 
 
     <uvalib-page id="page"
@@ -282,9 +288,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  large-screen="{{_largeScreen}}"
                  screen-size="{{_screenSize}}">
 
-      <iron-pages attr-for-selected="name" selected="">
-
-        <div name="">
+      <iron-pages attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]">
+        <div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>
+        <div name="homepage">
           <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
 
           <div id="shady-box">
@@ -340,7 +346,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
         </div>
-        
+
       </iron-pages>
 
     </uvalib-page>
@@ -355,7 +361,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         page: {
           type: String,
           reflectToAttribute: true,
-          observer: '_pageChanged',
+//          observer: '_pageChanged',
         },
 
         /**
@@ -438,6 +444,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_updateScreenSize(_smallScreen,_mediumScreen,_largeScreen)'
       ],
 
+      _whichIronPage: function(path){
+        var page = (path=="")?
+                          "homepage":
+                          "pagepull";
+        return page;
+      },
+
       _routePageChanged: function(page) {
         this.page = page || 'view1';
 
@@ -446,15 +459,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //        }
       },
 
-      _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
+//      _pageChanged: function(page) {
+//        // Load page import on demand. Show 404 page if fails
+//        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+//        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+//      },
 
-      _showPage404: function() {
-        this.page = 'view404';
-      },
+//      _showPage404: function() {
+//        this.page = 'view404';
+//      },
 
       _updateScreenSize: function() {
         this.debounce('screen', function(){

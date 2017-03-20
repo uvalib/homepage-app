@@ -6,7 +6,8 @@
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.8.1",
-    "uvalib-elements": "uvalib-components/uvalib-elements#master"
+    "uvalib-elements": "uvalib-components/uvalib-elements#master",
+    "page-title": "zacharytamas/page-title#^2.0.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
