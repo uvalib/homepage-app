@@ -27,6 +27,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
 <link rel="import" href="../bower_components/uvalib-page/uvalib-page.html">
 <link rel="import" href="../bower_components/uvalib-models/uvalib-model-pages.html">
+<link rel="import" href="../bower_components/uvalib-news-section/uvalib-news.html">
+<link rel="import" href="../bower_components/uvalib-helper-libs/uvalib-helper-behaviors.html">
 
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
@@ -164,6 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host([small-screen]) #news {
         height: 588px;
       }
+
       #news h2 {
         font-family: var(--font-primary);
         font-size: 24px;
@@ -175,6 +178,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: rgba(0, 0, 0, 0.54);
         margin: 34px 0 30px 0
       }
+
       #news .card-container {
         height: 240px;
         width: 100%;
@@ -281,6 +285,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .card[hidden] {
         display: none;
       }
+
+      #news .news .card {
+        cursor: pointer;
+      }
+
+      #news .news .card .source {
+        font-family: var(--font-primary);
+        font-size: 14px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ff9100;
+        padding: 18px 18px 0 18px;
+      }
+
+      #news .news .card h2 {
+        margin: 0;
+        padding: 10px 18px 0 18px;
+        font-family: var(--font-primary);
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #1a1a1a;
+      }
+
+      #news .news .card .body {
+        margin: 0;
+        padding: 5px 18px 0 18px;
+        font-family: var(--font-primary);
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.43;
+        letter-spacing: normal;
+        text-align: left;
+        color: #606060;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -347,12 +396,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <div id="news">
             <h2 hidden$="{{!_largeScreen}}">Library News</h2>
-            <div class="card-container">
-              <div class="card"></div>
-              <div class="card"></div>
-              <div class="card" hidden$="{{_smallScreen}}"></div>
+            <div class="card-container news">
+              <uvalib-news items="{{newsItems}}" limit="{{_newsItemCount(_smallScreen)}}"></uvalib-news>
+              <template is="dom-repeat" items="{{newsItems}}">
+                <div class="card" data-url$="{{item.url}}" on-tap="_followURL">
+                  <div class="source">Source: UVA Library news</div>
+                  <h2>{{_decodeHtml(item.title)}}</h2>
+                  <div class="body">{{_stripAndTruncate(item.excerpt, 200)}}</div>
+                </div>
+              </template>
             </div>
-            <uvalib-button>More News</uvalib-button>
+            <uvalib-button href="http://news.library.virginia.edu/">More News</uvalib-button>
           </div>
 
           <div id="lower">
@@ -372,12 +426,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
       is: 'uvalib-app',
+      behaviors: [uvalibbehaviors.helpers],
 
       properties: {
         page: {
           type: String,
           reflectToAttribute: true,
-//          observer: '_pageChanged',
         },
 
         pageModel: {
@@ -466,6 +520,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_updateScreenSize(_smallScreen,_mediumScreen,_largeScreen)'
       ],
 
+      _followURL: function(e) {
+        window.location = e.currentTarget.getAttribute('data-url');
+      },
+
+      _newsItemCount: function(small) {
+        return small? 2:3;
+      },
+
       _render: function(){
         if (this.pageModel && this.pageModel.body)
           Polymer.dom(this.$.pagepull).innerHTML = this.pageModel.body;
@@ -482,21 +544,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.page = page || 'view1';
         this.$.page.closeDrawer();
         window.scrollTo(0,0);
-
-//        if (!this.$.drawer.persistent) {
-//          this.$.drawer.close();
-//        }
       },
-
-//      _pageChanged: function(page) {
-//        // Load page import on demand. Show 404 page if fails
-//        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-//        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-//      },
-
-//      _showPage404: function() {
-//        this.page = 'view404';
-//      },
 
       _updateScreenSize: function() {
         this.debounce('screen', function(){
