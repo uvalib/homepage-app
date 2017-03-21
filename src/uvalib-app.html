@@ -341,8 +341,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}"></app-route>
 
     <uvalib-model-pages id="uvapages" path="/[[routeData.page]]" page="{{pageModel}}"></uvalib-model-pages>
-    <page-title base-title="UVA Libary" page-title="[[pageModel.title]]"></page-title>
-
+    <page-title base-title="UVA Libary" page-title="[[_pageTitle(pageModel.title, routeData.page)]]"></page-title>
 
     <uvalib-page id="page"
                  small-screen="{{_smallScreen}}"
@@ -350,12 +349,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  large-screen="{{_largeScreen}}"
                  screen-size="{{_screenSize}}">
 
-      <iron-pages attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]">
+      <iron-pages id="pages" attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]">
         <!--<div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>-->
         <div name="pagepull" class="pagepull">
           <div id="pagepull"></div>
         </div>
-        <div name="homepage">
+        <div name="homepage" title="UVA Library - Homepage">
           <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
 
           <div id="shady-box">
@@ -540,6 +539,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return page;
       },
 
+      _pageTitle: function(title, page){
+        // Todo: Get the title attribute of the iron-page currently selected if not pagepull (from page-model)
+        return title;
+      },
+
       _routePageChanged: function(page) {
         this.page = page || 'view1';
         this.$.page.closeDrawer();
@@ -566,6 +570,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }, 100);
       },
+
+
 
     });
   </script>
