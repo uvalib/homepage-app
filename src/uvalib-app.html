@@ -355,11 +355,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div id="pagepull"></div>
         </div>
         <div name="homepage" title="UVA Library - Homepage">
-          <uvalib-banners large-screen$="{{_largeScreen}}" medium-screen$="{{_mediumScreen}}"></uvalib-banners>
+          <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
 
           <div id="shady-box">
 
-            <template is="dom-if" if="{{_largeScreen}}" restamp>
+            <template is="dom-if" if="[[_largeScreen]]" restamp>
               <div class="card-container">
                 <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
                 <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
@@ -369,7 +369,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <uvalib-spaces-card class="card"></uvalib-spaces-card>
               </div>
             </template>
-            <template is="dom-if" if="{{!_largeScreen}}" restamp>
+            <template is="dom-if" if="[[!_largeScreen]]" restamp>
               <div class="card-container" style="margin-bottom: 0;">
                 <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
                   <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
@@ -378,7 +378,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
               <div class="card-container">
                 <uvalib-spaces-card class="card"></uvalib-spaces-card>
-                <uvalib-services-card class="card" hidden$="{{_largeScreen}}"></uvalib-services-card>
+                <uvalib-services-card class="card" hidden$="[[_largeScreen]]"></uvalib-services-card>
               </div>
             </template>
 
@@ -386,7 +386,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <div id="upper">
             <div class="card-container">
-              <uvalib-services-card class="card" hidden$="{{!_largeScreen}}"></uvalib-services-card>
+              <uvalib-services-card class="card" hidden$="[[!_largeScreen]]"></uvalib-services-card>
               <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
                   <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
               </uvalib-events-card>
@@ -394,14 +394,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
 
           <div id="news">
-            <h2 hidden$="{{!_largeScreen}}">Library News</h2>
+            <h2 hidden$="[[!_largeScreen]]">Library News</h2>
             <div class="card-container news">
-              <uvalib-news items="{{newsItems}}" limit="{{_newsItemCount(_smallScreen)}}"></uvalib-news>
-              <template is="dom-repeat" items="{{newsItems}}">
-                <div class="card" data-url$="{{item.url}}" on-tap="_followURL">
+              <uvalib-news items="{{newsItems}}" limit="[[_newsItemCount(_smallScreen)]]"></uvalib-news>
+              <template is="dom-repeat" items="[[newsItems]]">
+                <div class="card" data-url$="[[item.url]]" on-tap="_followURL">
                   <div class="source">Source: UVA Library news</div>
-                  <h2>{{_decodeHtml(item.title)}}</h2>
-                  <div class="body">{{_stripAndTruncate(item.excerpt, 200)}}</div>
+                  <h2>[[_decodeHtml(item.title)]]</h2>
+                  <div class="body">[[_stripAndTruncate(item.excerpt, 200)]]</div>
                 </div>
               </template>
             </div>
