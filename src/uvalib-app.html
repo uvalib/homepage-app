@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-search-box/uvalib-search-box.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-research-card.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-common-cards.html">
+<link rel="import" href="../bower_components/uvalib-card/uvalib-featured-content-card.html">
 <link rel="import" href="../bower_components/uvalib-button/uvalib-button.html">
 <link rel="import" href="../bower_components/uvalib-hours-card/uvalib-hours-card.html">
 <link rel="import" href="../bower_components/uvalib-events-card/uvalib-events-card.html">
@@ -379,7 +380,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
               <div class="card-container">
                 <uvalib-spaces-card class="card"></uvalib-spaces-card>
-                <uvalib-services-card class="card" hidden$="[[_largeScreen]]"></uvalib-services-card>
+                <template is="dom-if" if="[[!_largeScreen]]" restamp>
+                  <uvalib-featured-content-card class="card" content-type="services" heading="Services"
+                    href="http://library.virginia.edu/services" link-text="More services"></uvalib-featured-content-card>
+                </template>
               </div>
             </template>
 
@@ -387,7 +391,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <div id="upper">
             <div class="card-container">
-              <uvalib-services-card class="card darker" hidden$="[[!_largeScreen]]"></uvalib-services-card>
+              <template is="dom-if" if="[[_largeScreen]]" restamp>
+                <uvalib-featured-content-card class="card darker" content-type="services" heading="Services"
+                  href="http://library.virginia.edu/services" link-text="More services"></uvalib-featured-content-card>
+              </template>
               <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
                   <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
               </uvalib-events-card>
