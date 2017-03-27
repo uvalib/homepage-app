@@ -2,7 +2,8 @@
   "entrypoint": "index.html",
   "shell": "src/uvalib-app.html",
   "fragments": [
-    "src/my-view404.html"
+    "src/my-view404.html",
+    "src/services.html"
   ],
   "sourceGlobs": [
     "src/**/*",

@@ -351,10 +351,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  large-screen="{{_largeScreen}}"
                  screen-size="{{_screenSize}}">
 
-      <iron-pages id="pages" attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]">
+      <iron-pages id="pages" attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]" fallback=selection="pagepull">
         <!--<div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>-->
         <div name="pagepull" class="pagepull">
           <div id="pagepull"></div>
+        </div>
+        <div name="research">
+          <h2>Research</h2>
+        </div>
+        <div name="collections">
+          <h2>Collections</h2>
+        </div>
+        <div name="services">
+          <h2>Services</h2>
         </div>
         <div name="homepage" title="UVA Library - Homepage">
           <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
@@ -382,7 +391,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <uvalib-spaces-card class="card"></uvalib-spaces-card>
                 <template is="dom-if" if="[[!_largeScreen]]" restamp>
                   <uvalib-featured-content-card class="card" content-type="services" heading="Services"
-                    href="http://library.virginia.edu/services" link-text="More services"></uvalib-featured-content-card>
+                    href="/services" link-text="More services"></uvalib-featured-content-card>
                 </template>
               </div>
             </template>
@@ -393,7 +402,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="card-container">
               <template is="dom-if" if="[[_largeScreen]]" restamp>
                 <uvalib-featured-content-card class="card darker" content-type="services" heading="Services"
-                  href="http://library.virginia.edu/services" link-text="More services"></uvalib-featured-content-card>
+                  href="/services" link-text="More services"></uvalib-featured-content-card>
               </template>
               <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
                   <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
@@ -541,9 +550,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _whichIronPage: function(path){
-        var page = (path=="")?
-                          "homepage":
-                          "pagepull";
+        var page = (path=="")?"homepage":
+                              (path=="services")?"services":
+                                                 "pagepull";
         return page;
       },
 
