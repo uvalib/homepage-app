@@ -11,20 +11,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
-<link rel="import" href="../bower_components/paper-material/paper-material.html">
-
 <link rel="import" href="../bower_components/uvalib-banner/uvalib-banners.html">
 <link rel="import" href="../bower_components/uvalib-theme/uvalib-theme.html">
+<!--
 <link rel="import" href="../bower_components/uvalib-search-box/uvalib-search-box.html">
+-->
 <link rel="import" href="../bower_components/uvalib-card/uvalib-research-card.html">
-<link rel="import" href="../bower_components/uvalib-card/uvalib-common-cards.html">
+<link rel="import" href="../bower_components/uvalib-card/uvalib-spaces-card.html">
+<link rel="import" href="../bower_components/uvalib-card/uvalib-hours-card.html">
+
 <link rel="import" href="../bower_components/uvalib-card/uvalib-featured-content-card.html">
 <link rel="import" href="../bower_components/uvalib-button/uvalib-button.html">
+<!--
 <link rel="import" href="../bower_components/uvalib-hours-card/uvalib-hours-card.html">
+-->
+
 <link rel="import" href="../bower_components/uvalib-events-card/uvalib-events-card.html">
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
 <link rel="import" href="../bower_components/uvalib-page/uvalib-page.html">
@@ -37,9 +41,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/page-title/page-title.html">
 
+
 <dom-module id="uvalib-app">
   <template>
-    <style is="custom-style" include="uvalib-theme">
+    <style is="custom-style" include="uvalib-theme"> 
+
       :host {
         display: block;
       }
@@ -80,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: relative;
       }
       :host([large-screen]) #shady-box .card-container {
-        margin-top: 114px;
+        margin-top: 48px;
         margin-bottom: 48px;
       }
       :host([medium-screen]) #shady-box .card-container {
@@ -88,7 +94,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-bottom: 23px;
       }
       #shady-box .card-container {
-        margin-top: 114px;
+        margin-top: 48px;
         max-width: var(--uvalib-display-width-max);
         width: 100%;
       }
@@ -233,6 +239,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: 48px;
         max-width: var(--uvalib-display-width-max);
         margin-bottom: 48px;
+        width: 100%;
+        height: 216px;
       }
       :host([medium-screen]) #lower .card-container {
         @apply(--layout-vertical);
@@ -244,7 +252,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: 15px;
       }
       #lower .card-container .card {
-        height: 216px;
         overflow: hidden;
         margin: 0 8.5px 0 8.5px;
       }
@@ -268,6 +275,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .card uvalib-button{
         font-size: 18px;
+      }
+
+      #lower .card uvalib-button{
+        font-size: 15px;
+      }
+
+      uvalib-hours-card uvalib-button {
+        font-size: 15px !important;
       }
 
       .pagepull {
@@ -332,6 +347,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-align: left;
         color: #606060;
       }
+
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -343,7 +359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}"></app-route>
 
     <uvalib-model-pages id="uvapages" path="[[routeData.page]]" page="{{pageModel}}"></uvalib-model-pages>
-    <page-title base-title="UVA Libary" page-title="[[_pageTitle(pageModel.title, routeData.page)]]"></page-title>
+    <page-title base-title="UVA Library" page-title="[[_pageTitle(pageModel.title, routeData.page)]]"></page-title>
 
     <uvalib-page id="page"
                  small-screen="{{_smallScreen}}"
@@ -352,7 +368,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  screen-size="{{_screenSize}}">
 
       <iron-pages id="pages" attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]" fallback=selection="pagepull">
-        <!--<div name="pagepull" inner-h-t-m-l="[[pageModel.body]]"></div>-->
         <div name="pagepull" class="pagepull">
           <div id="pagepull"></div>
         </div>
@@ -372,8 +387,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <template is="dom-if" if="[[_largeScreen]]" restamp>
               <div class="card-container">
+                <!--
                 <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
-                <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+              -->
+                <uvalib-hours-card id="todayhours" class="card" locations="Alderman,Brown,Clemons">
                   <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
                 </uvalib-hours-card>
                 <uvalib-research-card class="card"></uvalib-research-card>
@@ -427,8 +444,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <div id="lower">
             <div class="card-container">
-              <uvalib-featured-exhibit-card class="card" horizontal></uvalib-featured-exhibit-card>
-              <uvalib-engage-card class="card" horizontal></uvalib-engage-card>
+
+              <uvalib-card class="card" small-screen$="{{smallScreen}}" horizontal elevation$="{{elevation}}" heading="Exhibition Spotlight" image="https://static.lib.virginia.edu/images/card-images/anne-spencer.jpg">
+                  <div class="card-content">
+                    <h3>Sacred Spaces: The Home and Poetry of Anne Spencer</h3>
+                    <p>An exhibition on the first floor gallery of the Albert and Shirley Small Special Collections Library through Dec. 30, 2016.</p>
+                  </div>
+                  <div class="card-actions">
+                      <uvalib-button href="http://news.library.virginia.edu/2016/09/12/uva-exhibiton-sacred-spaces-the-home-and-poetry-of-anne-spencer-featured-in-lynchburg-paper/">Read More</uvalib-button>
+                  </div>
+              </uvalib-card>
+
+              <uvalib-card class="card" small-screen$="{{smallScreen}}" horizontal elevation$="{{elevation}}" heading="Support, Engage, Connect" image="https://static.lib.virginia.edu/images/card-images/engage.jpg">
+                  <div class="card-content">
+                    <ul>
+                      <li><a href="http://www.library.virginia.edu/jobs/">Volunteer Opportunities</a>
+                      <li><a href="http://www.library.virginia.edu/services/alumni/">Alumni Services</a>
+                      <li><a href="http://www.library.virginia.edu/services/community-patrons/">Community Patrons</a>
+                    </ul>
+                  </div>
+                  <div class="card-actions">
+                      <uvalib-button href="http://www.library.virginia.edu/support/">Learn More</uvalib-button>
+                  </div>
+              </uvalib-card>
+
             </div>
           </div>
         </div>
@@ -586,9 +625,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this._setLargeScreen(true);
           }
         }, 100);
-      },
-
-
+      }
 
     });
   </script>
