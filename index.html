@@ -80,14 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (!webComponentsSupported) {
           var script = document.createElement('script');
           script.async = true;
-
-          var isIElt11 = window.navigator.msPointerEnabled;
-          var isIE11 = '-ms-scroll-limit' in document.documentElement.style && '-ms-ime-align' in document.documentElement.style;
-//          if (isIE11 || isIElt11)
-            script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
-//          else
-//            script.src = '/bower_components/webcomponentsjs/webcomponents.min.js';
-
+          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
           script.onload = onload;
           document.head.appendChild(script);
         } else {
@@ -118,6 +111,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body>
     <uvalib-app></uvalib-app>
-    <!-- Built with love using Polymer Starter Kit -->
   </body>
 </html>
