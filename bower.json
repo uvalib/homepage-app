@@ -40,6 +40,7 @@
     "uvalib-skip-nav": "master",
     "uvalib-social-links": "master",
     "app-storage": "^0.10.0",
-    "iron-icons": "^1.2.1"
+    "iron-icons": "^1.2.1",
+    "uvalib-header": "master"
   }
 }
