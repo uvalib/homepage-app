@@ -1,12 +1,14 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "uvalib-webapp",
   "authors": [
-    "The Polymer Authors"
+    "Doug Chestnut",
+    "Jack Kelly"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.8.1",
     "uvalib-elements": "uvalib-components/uvalib-elements#master",
+    "uvalib-header": "uvalib-components/uvalib-header#master",
     "page-title": "zacharytamas/page-title#^2.0.1"
   },
   "devDependencies": {
@@ -25,7 +27,6 @@
     "uvalib-card": "master",
     "uvalib-button": "master",
     "uvalib-events-card": "master",
-    "uvalib-header": "master",
     "uvalib-helper-libs": "master",
     "uvalib-hours-card": "master",
     "uvalib-logos": "master",

@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="uvalib-app">
   <template>
-    <style is="custom-style" include="uvalib-theme"> 
+    <style is="custom-style" include="uvalib-theme">
 
       :host {
         display: block;
@@ -72,6 +72,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100%;
         position: absolute;
         z-index: 1000000000;
+      }
+
+      #shady-banner {
+        padding-top: 115px;
+        @apply(--layout-vertical);
+        @apply(--layout-center);
       }
 
       #shady-box, #upper, #news, #lower {
@@ -348,6 +354,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #606060;
       }
 
+      uvalib-banners {
+        width: 100%;
+        max-width: 1200px;
+      }
+
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -381,7 +392,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <h2>Services</h2>
         </div>
         <div name="homepage" title="UVA Library - Homepage">
-          <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
+
+          <div id="shady-banner">
+            <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
+          </div>
 
           <div id="shady-box">
 
