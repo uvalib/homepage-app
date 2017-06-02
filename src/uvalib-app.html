@@ -16,9 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/uvalib-banner/uvalib-banners.html">
 <link rel="import" href="../bower_components/uvalib-theme/uvalib-theme.html">
-<!--
 <link rel="import" href="../bower_components/uvalib-search-box/uvalib-search-box.html">
--->
 <link rel="import" href="../bower_components/uvalib-card/uvalib-research-card.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-spaces-card.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-hours-card.html">
@@ -65,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-flex);
         @apply(--layout-self-stretch);
       }
-
+/*
       uvalib-search-box {
         top: -91px;
         max-width: var(--uvalib-display-width-max);
@@ -73,11 +71,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: absolute;
         z-index: 1000000000;
       }
+*/
+      uvalib-search-box {
+        width: 100%;
+        max-width: 1200px;
+        position: absolute;
+        bottom: 0px;
+        z-index: 1000;
+      }
 
-      #shady-banner {
+      #banner {
         padding-top: 115px;
         @apply(--layout-vertical);
         @apply(--layout-center);
+        position: relative;
       }
 
       #shady-box, #upper, #news, #lower {
@@ -393,17 +400,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
         <div name="homepage" title="UVA Library - Homepage">
 
-          <div id="shady-banner">
+          <div id="banner">
             <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
+            <template is="dom-if" if="[[largeScreen]]">
+              <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
+            </template>
           </div>
 
           <div id="shady-box">
 
             <template is="dom-if" if="[[_largeScreen]]" restamp>
               <div class="card-container">
-                <!--
-                <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
-              -->
+
                 <uvalib-hours-card id="todayhours" class="card" locations="Alderman,Brown,Clemons">
                   <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
                 </uvalib-hours-card>
