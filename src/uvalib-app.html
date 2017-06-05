@@ -81,15 +81,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       #banner {
+        width: 100%;
+        max-width: 1200px;
         padding-top: 115px;
+      }
+
+      .center {
         @apply(--layout-vertical);
         @apply(--layout-center);
         position: relative;
       }
 
       #shady-box, #upper, #news, #lower {
+        /*
         padding-left: 10px;
         padding-right: 10px;
+        */
       }
 
       #shady-box {
@@ -97,6 +104,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--layout-center);
         position: relative;
+        width: 100%;
+        max-width: 1200px;
       }
       :host([large-screen]) #shady-box .card-container {
         margin-top: 48px;
@@ -125,11 +134,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host([small-screen]) #shady-box .card-container .card {
         margin-top: 15px;
       }
+
       #shady-box .card-container .card:first-child {
-        margin-left: 0;
+        margin-left: 17px;
       }
       #shady-box .card-container .card:last-child {
-        margin-right: 0;
+        margin-right: 17px;
       }
 
       #upper {
@@ -400,41 +410,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
         <div name="homepage" title="UVA Library - Homepage">
 
-          <div id="banner">
-            <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
-            <template is="dom-if" if="[[largeScreen]]">
-              <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
-            </template>
+          <div class="center">
+            <div id="banner" class="center">
+              <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
+              <template is="dom-if" if="[[largeScreen]]">
+                <uvalib-search-box id="searchbox" advanced-search site-search></uvalib-search-box>
+              </template>
+            </div>
           </div>
 
-          <div id="shady-box">
+          <div class="center">
+            <div id="shady-box">
 
-            <template is="dom-if" if="[[_largeScreen]]" restamp>
-              <div class="card-container">
+              <template is="dom-if" if="[[_largeScreen]]" restamp>
+                <div class="card-container">
 
-                <uvalib-hours-card id="todayhours" class="card" locations="Alderman,Brown,Clemons">
-                  <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
-                </uvalib-hours-card>
-                <uvalib-research-card class="card"></uvalib-research-card>
-                <uvalib-spaces-card class="card"></uvalib-spaces-card>
-              </div>
-            </template>
-            <template is="dom-if" if="[[!_largeScreen]]" restamp>
-              <div class="card-container" style="margin-bottom: 0;">
-                <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
-                  <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
-                </uvalib-hours-card>
-                <uvalib-research-card class="card"></uvalib-research-card>
-              </div>
-              <div class="card-container">
-                <uvalib-spaces-card class="card"></uvalib-spaces-card>
-                <template is="dom-if" if="[[!_largeScreen]]" restamp>
-                  <uvalib-featured-content-card class="card" content-type="services" heading="Services"
-                    href="/services" link-text="More services"></uvalib-featured-content-card>
-                </template>
-              </div>
-            </template>
+                  <uvalib-hours-card id="todayhours" class="card" locations="Alderman,Brown,Clemons">
+                    <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+                  </uvalib-hours-card>
+                  <uvalib-research-card class="card"></uvalib-research-card>
+                  <uvalib-spaces-card class="card"></uvalib-spaces-card>
+                </div>
+              </template>
+              <template is="dom-if" if="[[!_largeScreen]]" restamp>
+                <div class="card-container" style="margin-bottom: 0;">
+                  <uvalib-hours-card id="todayhours" class="card" vertical locations="Alderman,Brown,Clemons">
+                    <uvalib-button href="http://cal.lib.virginia.edu/hours/">View all hours</uvalib-button>
+                  </uvalib-hours-card>
+                  <uvalib-research-card class="card"></uvalib-research-card>
+                </div>
+                <div class="card-container">
+                  <uvalib-spaces-card class="card"></uvalib-spaces-card>
+                  <template is="dom-if" if="[[!_largeScreen]]" restamp>
+                    <uvalib-featured-content-card class="card" content-type="services" heading="Services"
+                      href="/services" link-text="More services"></uvalib-featured-content-card>
+                  </template>
+                </div>
+              </template>
 
+            </div>
           </div>
 
           <div id="upper">
