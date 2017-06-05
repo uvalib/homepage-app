@@ -9,13 +9,15 @@
     "polymer": "Polymer/polymer#^1.8.1",
     "uvalib-elements": "uvalib-components/uvalib-elements#master",
     "uvalib-header": "uvalib-components/uvalib-header#master",
-    "page-title": "zacharytamas/page-title#^2.0.1"
+    "page-title": "zacharytamas/page-title#^2.0.1",
+    "font-roboto": "PolymerElements/font-roboto-local#1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
   "private": true,
   "resolutions": {
+    "font-roboto": "1.0.0",
     "polymer": "^1.8.1",
     "web-component-tester": "^5.0.0",
     "lodash": "^4.17.4",
@@ -35,12 +37,12 @@
     "uvalib-nav": "master",
     "uvalib-footer": "master",
     "uvalib-news-section": "master",
-    "uvalib-search-box": "master",
     "uvalib-theme": "master",
     "uvalib-skip-nav": "master",
     "uvalib-social-links": "master",
     "app-storage": "^0.10.0",
     "iron-icons": "^1.2.1",
-    "uvalib-header": "master"
+    "uvalib-header": "master",
+    "uvalib-search-box": "master"
   }
 }

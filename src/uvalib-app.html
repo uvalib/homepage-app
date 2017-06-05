@@ -19,13 +19,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-search-box/uvalib-search-box.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-research-card.html">
 <link rel="import" href="../bower_components/uvalib-card/uvalib-spaces-card.html">
+<!--
 <link rel="import" href="../bower_components/uvalib-card/uvalib-hours-card.html">
-
+-->
 <link rel="import" href="../bower_components/uvalib-card/uvalib-featured-content-card.html">
 <link rel="import" href="../bower_components/uvalib-button/uvalib-button.html">
-<!--
+
 <link rel="import" href="../bower_components/uvalib-hours-card/uvalib-hours-card.html">
--->
+
 
 <link rel="import" href="../bower_components/uvalib-events-card/uvalib-events-card.html">
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news-section.html">
@@ -127,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin-bottom:15px;
       }
       #shady-box .card-container .card {
-        height: 336px;
+        height: 490px;
         overflow: hidden;
         margin: 0 8.5px 0 8.5px;
       }
@@ -154,7 +155,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100%
       }
       #upper .card-container .card {
-        height: 336px;
+        height: 490px;
         overflow: hidden;
         margin: 0 8.5px 0 8.5px;
       }
@@ -385,10 +386,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
-
+<!--
     <uvalib-model-pages id="uvapages" path="[[routeData.page]]" page="{{pageModel}}"></uvalib-model-pages>
+-->
+    <!--
     <page-title base-title="UVA Library" page-title="[[_pageTitle(pageModel.title, routeData.page)]]"></page-title>
-
+    -->
     <uvalib-page id="page"
                  small-screen="{{_smallScreen}}"
                  medium-screen="{{_mediumScreen}}"
@@ -443,7 +446,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <uvalib-spaces-card class="card"></uvalib-spaces-card>
                   <template is="dom-if" if="[[!_largeScreen]]" restamp>
                     <uvalib-featured-content-card class="card" content-type="services" heading="Services"
-                      href="/services" link-text="More services"></uvalib-featured-content-card>
+                      href="/services" link-text="More services" image="https://static.lib.virginia.edu/images/card-images/services.jpg"></uvalib-featured-content-card>
                   </template>
                 </div>
               </template>
@@ -455,7 +458,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="card-container">
               <template is="dom-if" if="[[_largeScreen]]" restamp>
                 <uvalib-featured-content-card class="card darker" content-type="services" heading="Services"
-                  href="/services" link-text="More services"></uvalib-featured-content-card>
+                  href="/services" link-text="More services" image="https://static.lib.virginia.edu/images/card-images/services.jpg"></uvalib-featured-content-card>
               </template>
               <uvalib-events-card class="card" heading="Upcoming Events" elevation="3" max-num-events-shown="2">
                   <uvalib-button href="http://cal.lib.virginia.edu/calendar/events">View calendar</uvalib-button>
@@ -463,31 +466,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
 
-          <div id="news">
-            <h2 hidden$="[[!_largeScreen]]">Library News</h2>
-            <div class="card-container news">
-              <uvalib-news items="{{newsItems}}" limit="[[_newsItemCount(_smallScreen)]]"></uvalib-news>
-              <template is="dom-repeat" items="[[newsItems]]">
-                <div class="card" data-url$="[[item.url]]" on-tap="_followURL">
-                  <div class="source">Source: UVA Library news</div>
-                  <h2>[[_decodeHtml(item.title)]]</h2>
-                  <div class="body">[[_stripAndTruncate(item.excerpt, 200)]]</div>
-                </div>
-              </template>
+          <div class="center">
+            <div id="news">
+              <h2 hidden$="[[!_largeScreen]]">Library News</h2>
+              <div class="card-container news">
+                <uvalib-news items="{{newsItems}}" limit="[[_newsItemCount(_smallScreen)]]"></uvalib-news>
+                <template is="dom-repeat" items="[[newsItems]]">
+                  <div class="card" data-url$="[[item.url]]" on-tap="_followURL">
+                    <div class="source">Source: UVA Library news</div>
+                    <h2>[[_decodeHtml(item.title)]]</h2>
+                    <div class="body">[[_stripAndTruncate(item.excerpt, 200)]]</div>
+                  </div>
+                </template>
+              </div>
+              <uvalib-button href="http://news.library.virginia.edu/">More News</uvalib-button>
             </div>
-            <uvalib-button href="http://news.library.virginia.edu/">More News</uvalib-button>
           </div>
 
           <div id="lower">
             <div class="card-container">
 
-              <uvalib-card class="card" small-screen$="{{smallScreen}}" horizontal elevation$="{{elevation}}" heading="Exhibition Spotlight" image="https://static.lib.virginia.edu/images/card-images/anne-spencer.jpg">
+              <uvalib-card class="card" small-screen$="{{smallScreen}}" horizontal elevation$="{{elevation}}" heading="Exhibition Spotlight" image="https://static.lib.virginia.edu/images/card-images/borges.jpg">
                   <div class="card-content">
-                    <h3>Sacred Spaces: The Home and Poetry of Anne Spencer</h3>
-                    <p>An exhibition on the first floor gallery of the Albert and Shirley Small Special Collections Library through Dec. 30, 2016.</p>
+                    <p>Jorge Luis Borges: Author, Editor, Promulgator. On display in the First Floor Gallery in the Albert and Shirley Small Special Collections Library through July 7, 2017.</p>
                   </div>
                   <div class="card-actions">
-                      <uvalib-button href="http://news.library.virginia.edu/2016/09/12/uva-exhibiton-sacred-spaces-the-home-and-poetry-of-anne-spencer-featured-in-lynchburg-paper/">Read More</uvalib-button>
+                      <uvalib-button href="http://smallnotes.library.virginia.edu/2017/04/03/on-view-now-jorge-luis-borges-author-editor-promulgator/">Read More</uvalib-button>
                   </div>
               </uvalib-card>
 
