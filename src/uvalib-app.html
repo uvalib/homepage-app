@@ -13,6 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
 
 <link rel="import" href="../bower_components/uvalib-banner/uvalib-banners.html">
 <link rel="import" href="../bower_components/uvalib-theme/uvalib-theme.html">
@@ -78,6 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         max-width: 1200px;
         position: absolute;
         bottom: 0px;
+        left: 0px;
         z-index: 1000;
       }
 
@@ -189,6 +191,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-center);
         position: relative;
         height: 456px;
+        width: 100%;
+        max-width: 1200px;
       }
       :host([medium-screen]) #news {
         height: 361px;
@@ -413,6 +417,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
         <div name="homepage" title="UVA Library - Homepage">
 
+          <iron-signals on-iron-signal-triggersearch="_triggerSearch"></iron-signals>
+
           <div class="center">
             <div id="banner" class="center">
               <uvalib-banners large-screen$="[[_largeScreen]]" medium-screen$="[[_mediumScreen]]"></uvalib-banners>
@@ -614,6 +620,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_routePageChanged(routeData.page)',
         '_updateScreenSize(_smallScreen,_mediumScreen,_largeScreen)'
       ],
+
+      _triggerSearch: function(){
+        window.scrollTo(0, 0);
+        this.$.pages.querySelector('#searchbox').focus();
+      },
 
       _followURL: function(e) {
         window.location = e.currentTarget.getAttribute('data-url');
