@@ -12,7 +12,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-signals/iron-signals.html">
 
 <link rel="import" href="../bower_components/uvalib-banner/uvalib-banners.html">
@@ -36,11 +35,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/uvalib-news-section/uvalib-news.html">
 <link rel="import" href="../bower_components/uvalib-helper-libs/uvalib-helper-behaviors.html">
 
+<!--
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html"
 <link rel="import" href="../bower_components/page-title/page-title.html">
-
+-->
 
 <dom-module id="uvalib-app">
   <template>
@@ -276,7 +276,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       :host([small-screen]) #lower .card-container {
         @apply(--layout-vertical);
-        height: 444px;
+        height: 500px;
         margin-top: 15px;
       }
       #lower .card-container .card {
@@ -382,7 +382,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-
+<!--
     <app-location route="{{route}}"></app-location>
     <app-route
         id="router"
@@ -390,6 +390,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
+-->
+
 <!--
     <uvalib-model-pages id="uvapages" path="[[routeData.page]]" page="{{pageModel}}"></uvalib-model-pages>
 -->
@@ -401,7 +403,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  medium-screen="{{_mediumScreen}}"
                  large-screen="{{_largeScreen}}"
                  screen-size="{{_screenSize}}">
-
+<!--
       <iron-pages id="pages" attr-for-selected="name" selected="[[_whichIronPage(routeData.page)]]" fallback=selection="pagepull">
         <div name="pagepull" class="pagepull">
           <div id="pagepull"></div>
@@ -415,6 +417,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div name="services">
           <h2>Services</h2>
         </div>
+      -->
         <div name="homepage" title="UVA Library - Homepage">
 
           <iron-signals on-iron-signal-triggersearch="_triggerSearch"></iron-signals>
@@ -517,9 +520,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
         </div>
-
+<!--
       </iron-pages>
-
+-->
     </uvalib-page>
 
   </template>
@@ -547,7 +550,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         navigation: {
           type: Array,
           value: [
-            {"label": "About", "icon": "university", "url": "about-uva-library"},
+            {"label": "About", "icon": "university", "url": "//www.library.virginia.edu/about-uva-library"},
             {"label": "Research", "icon": "graduation-cap", "url": "//www.library.virginia.edu/research/"},
             {"label": "Collections", "icon": "book", "url": "//www.library.virginia.edu/collections/"},
             {"label": "Services", "icon": "cloud", "url": "//www.library.virginia.edu/services/"}
@@ -556,7 +559,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         mobileNavigation: {
           type: Array,
           value: [
-            {"label": "About", "icon": "university", "url": "about-uva-library"},
+            {"label": "About", "icon": "university", "url": "//www.library.virginia.edu/about-uva-library"},
             {"label": "Research", "icon": "graduation-cap", "url": "//www.library.virginia.edu/research/"},
             {"label": "Collections", "icon": "book", "url": "//www.library.virginia.edu/collections/"},
             {"label": "Services", "icon": "cloud", "url": "/www.library.virginia.edu/services/"}
