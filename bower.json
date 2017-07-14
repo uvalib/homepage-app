@@ -9,6 +9,7 @@
   },
   "resolutions": {
     "lodash": "^4.17.4",
-    "app-storage": "1 - 2"
+    "app-storage": "1 - 2",
+    "promise-polyfill": "^1.0.0"
   }
 }
